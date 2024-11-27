@@ -1,0 +1,67 @@
+
+/* Cores Texto */
+.texto-primario {
+
+    color: #264653 !important;
+}
+.texto-secundario {
+    color: #2a9d8f !important;
+}
+
+.texto-laranja {
+    color: #f4a261 !important; 
+}
+
+.texto-dourado {
+    color: #e9c46a !important;
+}
+
+/* Backgrounds */
+.bg-primario {
+    background: #264653 !important;
+}
+
+.bg-secundario {
+    background: #2a9d8f !important;
+}
+
+
+/* Botão */
+
+.botao-primario {
+    background: #264653 !important;
+    /* border: 1px solid #264653 !important; */
+    color: #f4a261 !important;
+}
+
+.botao-primario:hover {
+
+    background: #f4a261 !important;
+    /* border: 1px solid #f4a261 !important; */
+    color: #264653  !important;
+}
+.botao-secundario {
+    background: #f4a261 !important;
+    /* border: 1px solid #264653 !important; */
+    color: #264653 !important;
+}
+
+.botao-secundario:hover {
+
+    background: #264653 !important;
+    /* border: 1px solid #f4a261 !important; */
+    color: #f4a261  !important;
+}
+
+.botao-transparente {
+    color: #264653 !important;
+}
+.botao-transparente:hover{
+    color: #f4a261  !important;
+}
+
+/* Border */
+
+.border-primario {
+    border-color: #264653 !important;
+}
