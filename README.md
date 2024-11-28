@@ -6,6 +6,14 @@ Esté é um aplicativo par agestão de chamados feito em php 7.4 desenvolvido du
 Algumas funções foram reduzidas para não sair do escopo de estudo.
 
 
+## Instalação
+
+Para instalar em uma hospedagem convencional
+- Copie os arquivos para a hospedagem
+- Altere no arquivo config.php a variavel HOMOLOG para false
+
+Essa variavel é responsavel por desabilitar a troca de senha e os envios de arquivos.
+
 ## Stack utilizada
 
 **Front-end:** Boostrap5, Jquery, CKeditor

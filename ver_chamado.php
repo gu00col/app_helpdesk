@@ -80,7 +80,7 @@ require_once './funcs/valida_sessao.php';
 
 
                             $stmt = $pdo->prepare("SELECT * FROM chamados WHERE id = :chamado_id;");
-                            $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_STR);
+                            $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_INT);
                             $stmt->execute();
                             $chamado = $stmt->fetch(PDO::FETCH_ASSOC);
                         } else if ((isset($_SESSION['usuario']['usuario']) && $_SESSION['usuario']['usuario']) && (isset($_SESSION['usuario']['adm']) && !$_SESSION['usuario']['adm'])  && (isset($_SESSION['usuario']['atendente']) && !$_SESSION['usuario']['atendente'])) {
@@ -88,7 +88,7 @@ require_once './funcs/valida_sessao.php';
                             $usuario_id = $_SESSION['usuario']['id'];
 
                             $stmt = $pdo->prepare("SELECT * FROM chamados WHERE id = :chamado_id AND usuario_id = :usuario_id;");
-                            $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_STR);
+                            $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_INT);
                             $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
                             $stmt->execute();
                             $chamado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -101,7 +101,7 @@ require_once './funcs/valida_sessao.php';
                         };
 
                         $stmt = $pdo->prepare("SELECT * FROM chamado_arquivos ca WHERE chamado_id = :chamado_id and abertura = 1;");
-                        $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_STR);
+                        $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_INT);
                         $stmt->execute();
                         $arquivos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     } catch (PDOException $e) {
@@ -303,25 +303,27 @@ require_once './funcs/valida_sessao.php';
                                     foreach ($arquivos as $arquivo) {
                                         if ($arquivo['abertura']) {
                                             // Dividir a URL do anexo para obter a extensão do arquivo
-                                            $partesArquivo = explode(".", $arquivo['url']);
-                                            $extensaoArquivo = end($partesArquivo);
-                                            // Verificação das extensões
-                                            if (in_array($extensaoArquivo, $extensoesImagem)) {
-                                                $iconeArquivo = 'bi bi-file-earmark-image';
-                                            } elseif (in_array($extensaoArquivo, $extensoesPDF)) {
-                                                $iconeArquivo = 'bi bi-file-earmark-pdf';
-                                            } elseif (in_array($extensaoArquivo, $extensoesWord)) {
-                                                $iconeArquivo = 'bi bi-file-earmark-word';
-                                            } elseif (in_array($extensaoArquivo, $extensoesExcel)) {
-                                                $iconeArquivo = 'bi bi-file-earmark-excel';
-                                            } elseif (in_array($extensaoArquivo, $extensoesTexto)) {
-                                                $iconeArquivo = 'bi bi-file-earmark-text';
-                                            } elseif (in_array($extensaoArquivo, $extensoesZip)) {
-                                                $iconeArquivo = 'bi bi-file-earmark-zip';
-                                            } else {
-                                                $iconeArquivo = 'bi bi-file-earmark';
-                                            }
-                                            echo '<a class="btn fs-2" href="./chamado_arquivos/' . $chamado['id'] . '/' . $arquivo['url'] . '  " download="' . $arquivo['url'] . '"><i class=" ' . $iconeArquivo . ' "></i></a>';
+                                            if($arquivo['url']){
+                                                $partesArquivo = explode(".", $arquivo['url']);
+                                                $extensaoArquivo = end($partesArquivo);
+                                                // Verificação das extensões
+                                                if (in_array($extensaoArquivo, $extensoesImagem)) {
+                                                    $iconeArquivo = 'bi bi-file-earmark-image';
+                                                } elseif (in_array($extensaoArquivo, $extensoesPDF)) {
+                                                    $iconeArquivo = 'bi bi-file-earmark-pdf';
+                                                } elseif (in_array($extensaoArquivo, $extensoesWord)) {
+                                                    $iconeArquivo = 'bi bi-file-earmark-word';
+                                                } elseif (in_array($extensaoArquivo, $extensoesExcel)) {
+                                                    $iconeArquivo = 'bi bi-file-earmark-excel';
+                                                } elseif (in_array($extensaoArquivo, $extensoesTexto)) {
+                                                    $iconeArquivo = 'bi bi-file-earmark-text';
+                                                } elseif (in_array($extensaoArquivo, $extensoesZip)) {
+                                                    $iconeArquivo = 'bi bi-file-earmark-zip';
+                                                } else {
+                                                    $iconeArquivo = 'bi bi-file-earmark';
+                                                }
+                                                echo '<a class="btn fs-2" href="./chamado_arquivos/' . $chamado['id'] . '/' . $arquivo['url'] . '  " download="' . $arquivo['url'] . '"><i class=" ' . $iconeArquivo . ' "></i></a>';
+                                            };
                                         };
                                     };
                                 };
@@ -384,10 +386,10 @@ require_once './funcs/valida_sessao.php';
                                             $tempoDecorrido = calcularTempoDecorrido($tempoDecorridoSegundos);
 
                                             // Dividir a URL do anexo para obter a extensão do arquivo
-                                            $partesArquivo = explode(".", $comentario['anexo_url']);
-                                            $extensaoArquivo = end($partesArquivo);
-
-                                            // Verificação das extensões
+                                            if ($comentario['anexo_url']){
+                                                $partesArquivo = explode(".", $comentario['anexo_url']);
+                                                $extensaoArquivo = end($partesArquivo);
+                                                    // Verificação das extensões
                                             if (in_array($extensaoArquivo, $extensoesImagem)) {
                                                 $iconeArquivo = 'bi bi-file-earmark-image';
                                             } elseif (in_array($extensaoArquivo, $extensoesPDF)) {
@@ -403,6 +405,11 @@ require_once './funcs/valida_sessao.php';
                                             } else {
                                                 $iconeArquivo = 'bi bi-file-earmark';
                                             }
+                                            }
+                                            
+                                            
+
+                                        
 
                                     ?>
 
@@ -454,6 +461,9 @@ require_once './funcs/valida_sessao.php';
                                         <label for="editor" class="form-label">Descrição</label>
                                         <textarea name="descricao" id="editor" rows="10" cols="80" required></textarea>
                                     </div>
+                                    <?php 
+                                if(isset($HOMOLOG) and !$HOMOLOG){
+                                ?>
                                     <div class="mb-3">
                                         <label for="arquivo" class="form-label">Arquivo</label>
                                         <input
@@ -465,6 +475,9 @@ require_once './funcs/valida_sessao.php';
                                             aria-describedby="fileHelpId" accept=".jpg,.jpeg,.png"/>
                                         <div id="fileHelpId" class="form-text">Opcional</div>
                                     </div>
+                                    <?php 
+                                };
+                                    ?>
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                                         <button class="btn botao-primario me-md-2 " type="submit"><i class="bi bi-send-plus-fill"></i> Adicionar comentario</button>
                                         <button class="btn btn-secondary" type="reset"><i class="bi bi-trash3-fill"></i> Limpar</button>

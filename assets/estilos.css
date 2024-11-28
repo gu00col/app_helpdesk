@@ -60,6 +60,20 @@
     color: #f4a261  !important;
 }
 
+/* Link */
+
+.link-secundario {
+    text-decoration: none;
+    color: #f4a261 !important;
+}
+.link-secundario:hover{
+    color: #2a9d8f !important;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
 /* Border */
 
 .border-primario {

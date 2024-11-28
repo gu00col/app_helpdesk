@@ -15,9 +15,10 @@ if ($chamado_id == null) {
     header("Location: ../consultar_chamados.php");
     exit();
 };
+$data_agora = date("Y-m-d H:i:s");
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $usuario_id = $_SESSION['usuario']['id'];
-    $data_agora = date("Y-m-d H:i:s");
+    
 
     if (isset($_GET['acao']) && $_GET['acao'] == 'assumir_chamado') {
 
@@ -58,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario_id = $_SESSION['usuario']['id'];
-    $data_agora = date("Y-m-d H:i:s");
 
     if (isset($_POST['acao']) && $_POST['acao'] == 'alterar_status') {
         if ($_SESSION['usuario']['adm'] || $_SESSION['usuario']['atendente']) {
@@ -71,11 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $comentario = $_SESSION['usuario']['nome'] . ', Alterou o status do chamado para ' . $status . ' <br><strong>Motivo:</strong><br>' . $_POST['motivo'];
 
             try {
-                $stmt = $pdo->prepare("UPDATE chamados SET status=:status_param, atendente_id=:usuario_id , atualizado_em=:data_agora, deletado_em=:data_agora WHERE id=:chamado_id;");
+                $stmt = $pdo->prepare("UPDATE chamados SET status=:status_param, atendente_id=:usuario_id , atualizado_em=:atualizado_em, deletado_em=:deletado_em WHERE id=:chamado_id;");
                 $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_STR);
                 $stmt->bindParam(':status_param', $status, PDO::PARAM_STR);
                 $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-                $stmt->bindParam(':data_agora', $deletado_em, PDO::PARAM_STR);
+                $stmt->bindParam(':atualizado_em', $data_agora, PDO::PARAM_STR);
+                $stmt->bindParam(':deletado_em', $deletado_em, PDO::PARAM_STR);
                 $stmt->execute();
                 
 
@@ -110,11 +111,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $status = 'fechado';
 
                 try {
-                    $stmt = $pdo->prepare("UPDATE chamados SET status=:status_param, atendente_id=:usuario_id , atualizado_em=:data_agora WHERE id=:chamado_id;");
-                    $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_STR);
+                    $stmt = $pdo->prepare("UPDATE chamados SET status=:status_param, atendente_id=:usuario_id , atualizado_em=:atualizado_em WHERE id=:chamado_id;");
+                    $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_INT);
                     $stmt->bindParam(':status_param', $status, PDO::PARAM_STR);
                     $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-                    $stmt->bindParam(':data_agora', $deletado_em, PDO::PARAM_STR);
+                    $stmt->bindParam(':atualizado_em', $data_agora, PDO::PARAM_STR);
                     $stmt->execute();
                     
     
@@ -151,10 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($_SESSION['usuario']['adm'] || $_SESSION['usuario']['atendente']) {
             try {
-                $stmt = $pdo->prepare("UPDATE chamados SET status=:status_param, atendente_id=:usuario_id , atualizado_em=:data_agora WHERE id=:chamado_id;");
+                $stmt = $pdo->prepare("UPDATE chamados SET status=:status_param, atendente_id=:usuario_id , atualizado_em=:atualizado_em WHERE id=:chamado_id;");
                 $stmt->bindParam(':chamado_id', $chamado_id, PDO::PARAM_INT);
                 $stmt->bindParam(':status_param', $status, PDO::PARAM_STR);
                 $stmt->bindParam(':usuario_id', $atendente, PDO::PARAM_INT);
+                $stmt->bindParam(':atualizado_em', $data_agora, PDO::PARAM_STR);
                 $stmt->execute();
 
                 $comentario = $_SESSION['usuario']['nome'] . ', Atribuiu o chamado para  ' . $usuario_nome;

@@ -68,6 +68,9 @@ require_once './funcs/valida_sessao.php';
                                         <option value="financeiro">Financeiro</option>
                                     </select>
                                 </div>
+                                <?php 
+                                if(isset($HOMOLOG) and !$HOMOLOG){
+                                ?>
                                 <div class="mb-3">
                                     <label for="arquivo" class="form-label">Arquivo</label>
                                     <input
@@ -79,6 +82,7 @@ require_once './funcs/valida_sessao.php';
                                         aria-describedby="fileHelpId" accept=".jpg,.jpeg,.png"/>
                                     <div id="fileHelpId" class="form-text">Opcional</div>
                                 </div>
+                                <?php }; ?>
 
                                 <div class="mb-3">
                                     <label for="editor" class="form-label">Descrição</label>
