@@ -112,10 +112,10 @@ $usuario_id = $_SESSION['usuario']['id'];
                                     FROM chamados c
                                     WHERE strftime('%Y', c.atualizado_em) = :ano
                                     AND strftime('%m', c.atualizado_em) = :mes
-                                    AND c.status = 'aberto' or c.status = 'fechado' or c.status = 'resolvido'
+                                    AND c.status = 'aberto' or c.status = 'fechado' or c.status = 'resolvido' or c.status = 'pendente'
                                     GROUP BY c.categoria;";
                         // Dashboard
-                        
+
                         $stmt = $pdo->prepare($query);
                         $stmt->bindParam(':ano', $ano, PDO::PARAM_STR);
                         $stmt->bindParam(':mes', $mes, PDO::PARAM_STR);
@@ -198,9 +198,9 @@ $usuario_id = $_SESSION['usuario']['id'];
                     }
 
                     ?>
-                    <div class="row mt-3">
+                    <div class="row mt-3 d-none d-md-flex">
 
-                        <div class="col">
+                        <div class="col-md-3">
                             <div class="card border-primario border-2  texto-primario cursor" onclick="irParaChamados('aberto')">
                                 <div class="card-header h6 border-0 bg-transparent text-center">
                                     Meus chamados (Abertos)
@@ -210,7 +210,7 @@ $usuario_id = $_SESSION['usuario']['id'];
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                             <div class="card border-primario border-2  texto-primario cursor" onclick="irParaChamados('pendente')">
                                 <div class="card-header h6 border-0 bg-transparent text-center">
                                     Meus chamados (Pendentes)
@@ -224,7 +224,7 @@ $usuario_id = $_SESSION['usuario']['id'];
                         <?php
                         if ((isset($_SESSION["usuario"]["atendente"]) && $_SESSION["usuario"]["atendente"]) || (isset($_SESSION["usuario"]["adm"]) && $_SESSION["usuario"]["adm"])) {
                         ?>
-                            <div class="col">
+                            <div class="col-md-3">
                                 <div class="card border-primario border-2  texto-primario  cursor" onclick="irParaChamados('aberto')">
                                     <div class="card-header h6 border-0 bg-transparent text-center">
                                         Meus atendimentos (Abertos)
@@ -234,7 +234,7 @@ $usuario_id = $_SESSION['usuario']['id'];
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-md-3">
                                 <div class="card border-primario border-2  texto-primario  cursor" onclick="irParaChamados('pendente')">
                                     <div class="card-header h6 border-0 bg-transparent text-center">
                                         Chamados (Pendentes)
